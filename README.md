@@ -29,3 +29,10 @@ The trade-off: if your input is a full `To:` header with several recipients, spl
 - Backslash-pairs inside quoted strings (`"a\"b"`) are unescaped.
 - Comments may nest and may appear before the display name, inside the angle brackets, or after the closing bracket. They are collected in source order.
 - Folding whitespace (CRLF + spaces) is permitted anywhere ordinary whitespace is. Use `fold_if_present=True` (the default) to collapse it to single spaces.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
